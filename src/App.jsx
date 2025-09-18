@@ -1,19 +1,10 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import AdminDashboard from "./components/admin/AdminDashboard";
-import BookTour from "./components/admin/BookTour";
-
+// src/App.jsx
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/router.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <AdminDashboard />
-      {/* <BookTour /> */}
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
