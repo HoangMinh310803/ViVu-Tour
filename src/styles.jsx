@@ -1,6 +1,11 @@
-// src/styles.js
+// src/styles/index.js
+// Đây là nơi tập trung toàn bộ style cho ứng dụng của bạn.
+// Việc tách ra file riêng giúp mã nguồn gọn gàng và dễ bảo trì hơn.
 
 export const styles = {
+  // =======================================================
+  // GENERAL LAYOUT & DASHBOARD STYLES
+  // =======================================================
   container: {
     display: "flex",
     height: "100vh",
@@ -28,15 +33,6 @@ export const styles = {
     display: "flex",
     alignItems: "center",
     gap: "12px",
-  },
-  logo: {
-    width: "32px",
-    height: "32px",
-    backgroundColor: "#14B8A6",
-    borderRadius: "8px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
   },
   logoText: { fontSize: "20px", fontWeight: "bold", color: "#1f2937" },
   nav: { marginTop: "32px" },
@@ -337,19 +333,22 @@ export const styles = {
   formGroup: { marginBottom: "20px" },
   formLabel: {
     display: "block",
-    fontWeight: "500",
+    fontWeight: "600",
     color: "#374151",
     marginBottom: "8px",
     fontSize: "14px",
   },
   formInput: {
     width: "100%",
-    padding: "10px",
-    borderRadius: "6px",
+    padding: "12px 16px 12px 44px",
+    borderRadius: "8px",
     border: "1px solid #d1d5db",
     outline: "none",
     boxSizing: "border-box",
-    backgroundColor: "white",
+    backgroundColor: "#f9fafb",
+    color: "#1f2937",
+    fontSize: "16px",
+    transition: "border-color 0.2s, box-shadow 0.2s",
   },
   formTextarea: {
     width: "100%",
@@ -449,5 +448,128 @@ export const styles = {
     borderTop: "1px solid #e5e7eb",
     display: "flex",
     justifyContent: "flex-end",
+  },
+
+  // =======================================================
+  // LOGIN PAGE STYLES
+  // =======================================================
+  loginContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100vw",
+    height: "100vh",
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+  },
+  loginBox: {
+    backgroundColor: "white",
+    padding: "48px",
+    borderRadius: "12px",
+    boxShadow:
+      "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    width: "100%",
+    maxWidth: "420px",
+    textAlign: "center",
+    boxSizing: "border-box",
+  },
+  loginHeader: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: "24px",
+  },
+  logo: {
+    width: "48px",
+    height: "48px",
+    backgroundColor: "#14B8A6",
+    borderRadius: "10px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "16px",
+    boxShadow: "0 4px 14px 0 rgba(20, 184, 166, 0.39)",
+  },
+  loginTitle: {
+    fontSize: "28px",
+    fontWeight: "bold",
+    color: "#1f2937",
+    margin: "0 0 8px 0",
+  },
+  loginSubtitle: {
+    fontSize: "16px",
+    color: "#6b7280",
+    marginBottom: "32px",
+  },
+  loginError: {
+    color: "#c81e1e",
+    backgroundColor: "#fde8e8",
+    padding: "12px",
+    borderRadius: "8px",
+    fontSize: "14px",
+    marginBottom: "20px",
+    border: "1px solid #f4c7c7",
+    textAlign: "left",
+  },
+  loginForm: {
+    textAlign: "left",
+  },
+  inputContainer: {
+    position: "relative",
+  },
+  loginInputIcon: {
+    position: "absolute",
+    left: "14px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    color: "#9ca3af",
+  },
+  loginActions: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "32px",
+  },
+  loginCheckboxLabel: {
+    display: "flex",
+    alignItems: "center",
+    fontSize: "14px",
+    color: "#374151",
+    cursor: "pointer",
+  },
+  loginCheckbox: {
+    marginRight: "8px",
+    width: "16px",
+    height: "16px",
+    accentColor: "#14B8A6",
+  },
+  loginForgotPassword: {
+    fontSize: "14px",
+    color: "#14B8A6",
+    textDecoration: "none",
+    fontWeight: "600",
+  },
+  primaryButton: {
+    width: "100%",
+    padding: "12px",
+    backgroundColor: "#14B8A6",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    transition: "background-color 0.2s",
+  },
+  registerLinkContainer: {
+    marginTop: "32px",
+    fontSize: "15px",
+    color: "#4b5563",
+  },
+  registerLink: {
+    color: "#14B8A6",
+    fontWeight: "600",
+    textDecoration: "none",
   },
 };
