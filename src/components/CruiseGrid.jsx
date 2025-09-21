@@ -1,7 +1,7 @@
 import React from "react";
 import CruiseCard from "./CruiseCard";
 
-const CruiseGrid = ({ cruises, title, description }) => {
+const CruiseGrid = ({ tours, title, description }) => {
   return (
     <section className="py-5 bg-light">
       <div className="container">
@@ -13,9 +13,9 @@ const CruiseGrid = ({ cruises, title, description }) => {
 
         {/* Grid hiển thị card */}
         <div className="row g-4">
-          {cruises.map((cruise) => (
-            <div className="col-12 col-md-6 col-lg-4" key={cruise.id}>
-              <CruiseCard cruise={cruise} />
+          {tours.map((tour) => (
+            <div className="col-12 col-md-6 col-lg-4" key={tour.tourId}>
+              <CruiseCard tour={tour} />
             </div>
           ))}
         </div>
@@ -26,7 +26,7 @@ const CruiseGrid = ({ cruises, title, description }) => {
             className="btn btn-link text-decoration-none fw-medium d-inline-flex align-items-center"
             style={{ color: "#14b8a6" }}
           >
-            Xem tất cả Du thuyền
+            Xem tất cả Tour
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

@@ -22,7 +22,7 @@ const Header = () => {
           {/* Navbar */}
           <nav className="d-none d-md-flex gap-4">
             <a href="#" className="text-decoration-none text-dark link-hover">
-              Tìm du thuyền
+              Tìm Tour
             </a>
             <a href="#" className="text-decoration-none text-dark link-hover">
               Tìm vé máy bay
