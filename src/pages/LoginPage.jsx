@@ -33,7 +33,6 @@ const LoginPage = () => {
       }
       console.log("Login success:", response.data);
 
-      alert("Đăng nhập thành công!");
       navigate("/"); // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
       setError("");
     } catch (err) {

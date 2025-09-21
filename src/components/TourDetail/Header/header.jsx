@@ -7,7 +7,7 @@ const Header = () => {
     <header className="header">
       <div className="header-content">
         <h1 className="header-title">
-          TOUR SAPA GIÁ RẺ KINH NGHIỆM DU LỊCH CẬP NHẬT MỚI 2025
+          TOUR DU LỊCH GIÁ RẺ KINH NGHIỆM DU LỊCH CẬP NHẬT MỚI 2025
         </h1>
         <Breadcrumb />
       </div>
