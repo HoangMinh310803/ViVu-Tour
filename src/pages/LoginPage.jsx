@@ -3,12 +3,13 @@ import { Link } from "react-router-dom"; // 1. Import Link từ react-router-dom
 import { styles } from "../styles";
 import { User, Lock, Compass } from "lucide-react";
 import apiClient from "../apiConfig";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -22,10 +23,18 @@ const LoginPage = () => {
         username,
         password,
       });
-
+      const token = response.data.token;
+      localStorage.setItem("token", token); // lưu token
+      if (token) {
+        apiClient
+          .get("/api/Authorize/me")
+          .then((res) => setUser(res.data))
+          .catch(() => setUser(null));
+      }
       console.log("Login success:", response.data);
 
       alert("Đăng nhập thành công!");
+      navigate("/"); // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
       setError("");
     } catch (err) {
       console.error("Login error:", err);

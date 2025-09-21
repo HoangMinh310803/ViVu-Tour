@@ -1,22 +1,25 @@
 // src/components/RegisterPage.js
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { styles } from "../styles"; // Sử dụng lại file styles chung
-import { User, Lock, Compass, Mail } from "lucide-react"; // Thêm icon Mail
+import { Link, useNavigate } from "react-router-dom";
+import { styles } from "../styles"; 
+import { User, Lock, Compass, Mail } from "lucide-react";
+import apiClient from "../apiConfig"; // axios instance
 
 const RegisterPage = () => {
+  const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!fullName || !email || !password || !confirmPassword) {
+    // Validation cơ bản
+    if (!username || !fullName || !email || !password || !confirmPassword) {
       setError("Vui lòng điền đầy đủ thông tin.");
       return;
     }
@@ -29,10 +32,31 @@ const RegisterPage = () => {
       return;
     }
 
-    setError("");
-    // TODO: Thêm logic gọi API đăng ký ở đây
-    console.log("Đăng ký với:", { fullName, email, password });
-    alert(`Đăng ký thành công với Email: ${email}`);
+    try {
+      // Gọi API backend
+      const response = await apiClient.post("/api/Authorize/register", {
+        username,
+        fullName,
+        email,
+        password,
+      });
+
+      // Nếu API trả về token ngay sau khi đăng ký
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        alert("Đăng ký và đăng nhập thành công!");
+        navigate("/");
+      } else {
+        // Nếu chỉ trả về thông báo thành công
+        alert("Đăng ký thành công, vui lòng đăng nhập!");
+        navigate("/login");
+      }
+
+      setError("");
+    } catch (err) {
+      console.error("Register error:", err);
+      setError("Đăng ký thất bại. Vui lòng thử lại.");
+    }
   };
 
   return (
@@ -45,14 +69,12 @@ const RegisterPage = () => {
           <h1 style={styles.loginTitle}>Tạo tài khoản Vivu Tour</h1>
         </div>
 
-        <p style={styles.loginSubtitle}>
-          Bắt đầu hành trình của bạn với chúng tôi
-        </p>
+        <p style={styles.loginSubtitle}>Bắt đầu hành trình của bạn với chúng tôi</p>
 
         {error && <p style={styles.loginError}>{error}</p>}
 
         <form onSubmit={handleRegister} style={styles.loginForm}>
-          {/* Form Group: Họ và tên */}
+          {/* Họ và tên */}
           <div style={styles.formGroup}>
             <label htmlFor="fullName" style={styles.formLabel}>
               Họ và tên
@@ -70,7 +92,7 @@ const RegisterPage = () => {
             </div>
           </div>
 
-          {/* Form Group: Email */}
+          {/* Email */}
           <div style={styles.formGroup}>
             <label htmlFor="email" style={styles.formLabel}>
               Email
@@ -88,7 +110,25 @@ const RegisterPage = () => {
             </div>
           </div>
 
-          {/* Form Group: Mật khẩu */}
+          {/* Username */}
+          <div style={styles.formGroup}>
+            <label htmlFor="username" style={styles.formLabel}>
+              Username
+            </label>
+            <div style={{ position: "relative" }}>
+              <User size={16} style={styles.loginInputIcon} />
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                style={{ ...styles.formInput, paddingLeft: "40px" }}
+                placeholder="Nhập username của bạn"
+              />
+            </div>
+          </div>
+
+          {/* Mật khẩu */}
           <div style={styles.formGroup}>
             <label htmlFor="password" style={styles.formLabel}>
               Mật khẩu
@@ -106,7 +146,7 @@ const RegisterPage = () => {
             </div>
           </div>
 
-          {/* Form Group: Xác nhận mật khẩu */}
+          {/* Xác nhận mật khẩu */}
           <div style={styles.formGroup}>
             <label htmlFor="confirmPassword" style={styles.formLabel}>
               Xác nhận mật khẩu
@@ -130,7 +170,7 @@ const RegisterPage = () => {
               ...styles.primaryButton,
               width: "100%",
               justifyContent: "center",
-              marginTop: "16px", // Thêm khoảng cách
+              marginTop: "16px",
             }}
           >
             Đăng ký
