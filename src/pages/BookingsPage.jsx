@@ -20,7 +20,6 @@ const BookingsPage = ({ resetToken }) => {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      // Sửa: Cập nhật đúng API endpoint
       const response = await apiClient.get("/recent-bookings/20");
       setBookingsList(response.data);
       setError(null);
@@ -36,11 +35,8 @@ const BookingsPage = ({ resetToken }) => {
     fetchBookings();
   }, []);
 
-  // LƯU Ý: Các endpoint Approve/Cancel dưới đây vẫn là giả định.
-  // Bạn cần thay thế bằng API thực tế của mình.
   const handleApprove = async (bookingId) => {
     try {
-      // Sửa: Dùng đúng endpoint /api/Booking/Edit/{id}
       await apiClient.put(`/api/Booking/Edit/${bookingId}`, {
         status: "Confirmed",
       });
@@ -53,7 +49,6 @@ const BookingsPage = ({ resetToken }) => {
 
   const handleCancel = async (bookingId) => {
     try {
-      // Sửa: Dùng đúng endpoint /api/Booking/Edit/{id}
       await apiClient.put(`/api/Booking/Edit/${bookingId}`, {
         status: "Cancelled",
       });
@@ -64,7 +59,6 @@ const BookingsPage = ({ resetToken }) => {
     }
   };
 
-  // Sửa: Đơn giản hóa hàm xem chi tiết, không cần gọi API nữa
   const handleViewDetails = (booking) => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
@@ -80,19 +74,16 @@ const BookingsPage = ({ resetToken }) => {
     {
       header: "Khách hàng",
       width: "20%",
-      // Sửa: Truy cập dữ liệu lồng nhau từ item.user
       render: (item) => (item.user ? item.user.fullName : "N/A"),
     },
     {
       header: "Tour",
       width: "30%",
-      // Sửa: Truy cập dữ liệu lồng nhau từ item.tour
       render: (item) => (item.tour ? item.tour.tourName : "N/A"),
     },
     {
       header: "Ngày đặt",
       width: "15%",
-      // Sửa: Định dạng lại ngày tháng cho dễ đọc
       render: (item) => new Date(item.bookingDate).toLocaleDateString("vi-VN"),
     },
     {
@@ -124,21 +115,36 @@ const BookingsPage = ({ resetToken }) => {
         <Eye size={16} />
       </button>
 
-      {/* API trả về status chuỗi "Pending", "Confirmed",... nên so sánh chuỗi là đúng */}
       {item.status === "Pending" && (
         <>
           <button
             title="Phê duyệt"
-            // Sửa: Dùng bookingId thay vì id
-            onClick={() => handleApprove(item.bookingId)}
+            onClick={() => {
+              // Yêu cầu xác nhận trước khi thực hiện
+              if (
+                window.confirm(
+                  "Bạn có chắc chắn muốn PHÊ DUYỆT đơn đặt tour này không?"
+                )
+              ) {
+                handleApprove(item.bookingId);
+              }
+            }}
             style={{ ...styles.actionBtn, color: "#10b981" }}
           >
             <Check size={16} />
           </button>
           <button
             title="Từ chối"
-            // Sửa: Dùng bookingId thay vì id
-            onClick={() => handleCancel(item.bookingId)}
+            onClick={() => {
+              // Yêu cầu xác nhận trước khi thực hiện
+              if (
+                window.confirm(
+                  "Bạn có chắc chắn muốn TỪ CHỐI đơn đặt tour này không?"
+                )
+              ) {
+                handleCancel(item.bookingId);
+              }
+            }}
             style={{ ...styles.actionBtn, color: "#ef4444" }}
           >
             <X size={16} />
