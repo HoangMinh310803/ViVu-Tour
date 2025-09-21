@@ -8,7 +8,11 @@ import TourDetailPage from "../pages/TourDetailPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <HomePage />,
+  },
+  {
+    path: "/tour/:id",
+    element: <TourDetail />,
   },
   {
     path: "/admin",

@@ -49,7 +49,7 @@ const HeroSection = ({ onSearch }) => {
               <input
                 type="text"
                 className="form-control ps-5"
-                placeholder="Nhập tên du thuyền"
+                placeholder="Nhập tên Tour"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />

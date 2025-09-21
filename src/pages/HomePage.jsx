@@ -10,16 +10,35 @@ import {
   customerCategoriesData,
 } from "../data/cruiseData";
 
+import { getAllTours } from "../services/tourService";
+import { useState, useEffect } from "react";
+
 const HomePage = () => {
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const data = await getAllTours();
+        setTours(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTours();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-5">Đang tải dữ liệu...</div>;
+  }
+
   const handleSearch = (searchData) => {
     console.log("Search data:", searchData);
     // Implement search logic here
-  };
-
-  const cruiseGridConfig = {
-    title: "Du thuyền mới và phổ biến nhất",
-    description:
-      "Tận hưởng sự xa hoa và đẳng cấp tối đa trên du thuyền mới nhất và phổ biến nhất. Khám phá một hành trình với đầy đủ tiện nghi vào thế giới của sự sang trọng, tiện nghi và trải nghiệm khó thể quên.",
   };
 
   return (
@@ -29,9 +48,9 @@ const HomePage = () => {
       <HeroSection onSearch={handleSearch} />
 
       <CruiseGrid
-        cruises={cruisesData}
-        title={cruiseGridConfig.title}
-        description={cruiseGridConfig.description}
+        tours={tours}
+        title="Tour nổi bật"
+        description="Khám phá những tour du lịch hấp dẫn nhất"
       />
 
       <TestimonialSection
