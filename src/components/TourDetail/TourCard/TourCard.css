@@ -22,6 +22,20 @@
     border-radius: 6px;
     overflow: hidden;
 }
+.tour-card {
+    border: 1px solid #e5e7eb; /* màu xám nhạt */
+    border-radius: 6px;
+    padding: 12px;
+    margin: 10px;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.tour-card:hover {
+    border-color: #14B8A6; /* xanh highlight khi hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
 
 .tour-card-image img {
     width: 100%;
@@ -48,7 +62,7 @@
 }
 
 .tour-card-price {
-    color: #ff6b35;
+    color: #FF895D;
     font-weight: bold;
     font-size: 16px;
 }
