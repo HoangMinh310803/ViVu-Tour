@@ -1,6 +1,6 @@
 // src/routes/index.js (ví dụ)
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
+import Home from "../pages/HomePage";
 import AdminDashboard from "../components/admin/AdminDashboard";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
