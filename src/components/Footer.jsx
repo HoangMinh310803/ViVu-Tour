@@ -1,110 +1,119 @@
-// src/components/Footer.jsx
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 
-function Footer() {
+const Footer = () => {
   return (
-    <footer className="bg-dark text-white py-5">
-      <Container>
-        <Row>
-          {/* Cột 1: Logo và giới thiệu */}
-          <Col md={4} className="mb-4 mb-md-0">
-            <h5 className="fw-bold">MixiViVu</h5>
+    <footer className="bg-dark text-light py-5">
+      <div className="container">
+        <div className="row text-center text-md-start">
+          {/* Logo + giới thiệu */}
+          <div className="col-md-3 mb-4">
+            <div className="d-flex align-items-center justify-content-center justify-content-md-start mb-3">
+              <div
+                className="bg-teal rounded-circle d-flex align-items-center justify-content-center me-2"
+                style={{ width: "40px", height: "40px" }}
+              >
+                <span className="text-white fw-bold">M</span>
+              </div>
+              <span className="fs-4 fw-semibold">ViVu Tour</span>
+            </div>
             <p className="text-muted">
-              MixiViVu chuyên cung cấp các tour du thuyền cao cấp và trải nghiệm
-              du lịch độc đáo.
+              Nền tảng đặt tour du thuyền Hạ Long hàng đầu Việt Nam
             </p>
-          </Col>
+          </div>
 
-          {/* Cột 2: Liên kết nhanh */}
-          <Col md={2} className="mb-4 mb-md-0">
-            <h5 className="fw-bold">Thông tin</h5>
-            <ul className="list-unstyled">
+          {/* Dịch vụ */}
+          <div className="col-md-3 mb-4">
+            <h5 className="fw-semibold mb-3">Dịch vụ</h5>
+            <ul className="list-unstyled text-muted">
               <li>
-                <a href="#about" className="text-white text-decoration-none">
-                  Về chúng tôi
+                <a
+                  href="#"
+                  className="text-decoration-none text-muted hover-link"
+                >
+                  Du thuyền Hạ Long
                 </a>
               </li>
               <li>
-                <a href="#tours" className="text-white text-decoration-none">
-                  Danh sách tour
+                <a
+                  href="#"
+                  className="text-decoration-none text-muted hover-link"
+                >
+                  Khách sạn
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-white text-decoration-none">
+                <a
+                  href="#"
+                  className="text-decoration-none text-muted hover-link"
+                >
+                  Vé máy bay
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Hỗ trợ */}
+          <div className="col-md-3 mb-4">
+            <h5 className="fw-semibold mb-3">Hỗ trợ</h5>
+            <ul className="list-unstyled text-muted">
+              <li>
+                <a
+                  href="#"
+                  className="text-decoration-none text-muted hover-link"
+                >
                   Liên hệ
                 </a>
               </li>
               <li>
-                <a href="#blog" className="text-white text-decoration-none">
-                  Blog
-                </a>
-              </li>
-            </ul>
-          </Col>
-
-          {/* Cột 3: Hỗ trợ */}
-          <Col md={2} className="mb-4 mb-md-0">
-            <h5 className="fw-bold">Hỗ trợ</h5>
-            <ul className="list-unstyled">
-              <li>
-                <a href="#faq" className="text-white text-decoration-none">
+                <a
+                  href="#"
+                  className="text-decoration-none text-muted hover-link"
+                >
                   Câu hỏi thường gặp
                 </a>
               </li>
               <li>
-                <a href="#terms" className="text-white text-decoration-none">
-                  Điều khoản & Điều kiện
-                </a>
-              </li>
-              <li>
-                <a href="#policy" className="text-white text-decoration-none">
-                  Chính sách bảo mật
+                <a
+                  href="#"
+                  className="text-decoration-none text-muted hover-link"
+                >
+                  Chính sách
                 </a>
               </li>
             </ul>
-          </Col>
+          </div>
 
-          {/* Cột 4: Liên hệ và Mạng xã hội */}
-          <Col md={4}>
-            <h5 className="fw-bold">Theo dõi chúng tôi</h5>
-            <div className="d-flex">
-              <a href="#" className="text-white me-3">
-                <i className="bi bi-facebook fs-4"></i>
+          {/* Liên hệ */}
+          <div className="col-md-3 mb-4">
+            <h5 className="fw-semibold mb-3">Liên hệ</h5>
+            <p className="text-muted mb-1">Hotline: 0922222016</p>
+            <p className="text-muted">Email: info@mixivivu.com</p>
+
+            {/* Social icons */}
+            <div className="d-flex justify-content-center justify-content-md-start gap-3 mt-3">
+              <a href="#" className="text-light fs-5">
+                <FaFacebookF />
               </a>
-              <a href="#" className="text-white me-3">
-                <i className="bi bi-twitter fs-4"></i>
+              <a href="#" className="text-light fs-5">
+                <FaInstagram />
               </a>
-              <a href="#" className="text-white me-3">
-                <i className="bi bi-instagram fs-4"></i>
-              </a>
-              <a href="#" className="text-white">
-                <i className="bi bi-youtube fs-4"></i>
+              <a href="#" className="text-light fs-5">
+                <FaTiktok />
               </a>
             </div>
-            <div className="mt-3">
-              <p className="mb-1">
-                <i className="bi bi-telephone-fill me-2"></i> Hotline:
-                0922222016
-              </p>
-              <p className="mb-0">
-                <i className="bi bi-envelope-fill me-2"></i>{" "}
-                contact@mixivivu.com
-              </p>
-            </div>
-          </Col>
-        </Row>
-        <hr className="my-4" style={{ borderColor: "rgba(255,255,255,0.2)" }} />
-        <Row>
-          <Col className="text-center text-muted">
-            <small>
-              &copy; {new Date().getFullYear()} MixiViVu. All rights reserved.
-            </small>
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+
+        {/* Bản quyền */}
+        <div className="border-top border-secondary pt-4 mt-4 text-center text-muted">
+          <p className="mb-0">
+            &copy; 2025 ViVu Tour. Tất cả quyền được bảo lưu.
+          </p>
+        </div>
+      </div>
     </footer>
   );
-}
+};
 
 export default Footer;
