@@ -1,0 +1,101 @@
+.tour-info-section {
+    border-top: 1px solid #eee;
+}
+
+.tour-info-header {
+    background-color: #f8f9fa;
+    padding: 15px 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.tour-info-header h3 {
+    color: #ff6b35;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.tour-info-content {
+    display: grid;
+    gap: 40px;
+}
+
+.tour-details {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.detail-item h4 {
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.detail-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.detail-item li {
+    padding: 5px 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .tour-info-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+}
+.tour-conditions {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+/* Tabs header */
+.tab-header {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    color: #555;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    background: #eee;
+    color: #000;
+}
+
+.tab-btn.active {
+    border-bottom: 3px solid #007bff;
+    font-weight: bold;
+    color: #007bff;
+    background: #fff;
+}
+
+/* Nội dung tab */
+.tab-content {
+    padding: 15px;
+    background: #fff;
+}
+
+.condition-content {
+    font-size: 14px;
+    line-height: 1.6;
+}
