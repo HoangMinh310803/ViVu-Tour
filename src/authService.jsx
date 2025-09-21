@@ -28,10 +28,18 @@ const getUser = () => {
 };
 
 // Hàm kiểm tra người dùng có phải là admin không
+// HÀM ĐÃ SỬA LẠI CHÍNH XÁC
 const isAdmin = () => {
   const user = getUser();
-  // Nếu có user và role là 'admin' thì trả về true
-  return user && user.role === "admin";
+  if (!user) return false;
+
+  // 1. Lấy role claim theo đúng tên key từ .NET
+  // Dùng ngoặc vuông [] vì tên key có ký tự đặc biệt
+  const roleClaim =
+    user["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+  // 2. So sánh sau khi đã chuyển về chữ thường để chắc chắn
+  return roleClaim && roleClaim.toLowerCase() === "admin";
 };
 
 const authService = {
