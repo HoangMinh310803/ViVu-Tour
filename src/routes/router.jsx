@@ -1,11 +1,11 @@
 // src/routes/index.js (ví dụ)
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
+import HomePage from "../pages/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <HomePage />,
   },
   // Thêm các route khác
 ]);

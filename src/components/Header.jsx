@@ -1,38 +1,60 @@
-// src/components/Header.jsx
 import React from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Phone } from "lucide-react";
 
-function Header() {
+const Header = () => {
   return (
-    <Navbar bg="white" expand="lg" className="shadow-sm">
-      <Container>
-        <Navbar.Brand href="#home">
-          <img src="/logo.png" alt="MixiViVu Logo" style={{ width: "100px" }} />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#du-thuyen">Tìm du thuyền</Nav.Link>
-            <Nav.Link href="#may-bay">Tìm vé máy bay</Nav.Link>
-            <Nav.Link href="#khach-san">Tìm khách sạn</Nav.Link>
-            <Nav.Link href="#doanh-nghiep">Doanh nghiệp</Nav.Link>
-            <Nav.Link href="#blog">Blog</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link
-              href="#hotline"
-              className="d-flex align-items-center me-3"
+    <header className="bg-white border-bottom shadow-sm">
+      <div className="container">
+        <div className="d-flex justify-content-between align-items-center py-3">
+          {/* Logo + Tên */}
+          <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center me-2">
+              <div
+                className="d-flex align-items-center justify-content-center bg-teal rounded-circle"
+                style={{ width: "32px", height: "32px" }}
+              >
+                <span className="text-white fw-bold small">M</span>
+              </div>
+            </div>
+            <span className="fs-4 fw-semibold text-dark">ViVu Tour</span>
+          </div>
+
+          {/* Navbar */}
+          <nav className="d-none d-md-flex gap-4">
+            <a href="#" className="text-decoration-none text-dark link-hover">
+              Tìm du thuyền
+            </a>
+            <a href="#" className="text-decoration-none text-dark link-hover">
+              Tìm vé máy bay
+            </a>
+            <a href="#" className="text-decoration-none text-dark link-hover">
+              Tìm khách sạn
+            </a>
+            <a href="#" className="text-decoration-none text-dark link-hover">
+              Doanh nghiệp
+            </a>
+            <a href="#" className="text-decoration-none text-dark link-hover">
+              Blog
+            </a>
+          </nav>
+
+          {/* Hotline + Button */}
+          <div className="d-flex align-items-center gap-3">
+            <div className="d-flex align-items-center text-secondary small">
+              <Phone size={16} className="me-1" />
+              <span>Hotline: 0922222016</span>
+            </div>
+            <button
+              className="btn btn-sm text-white px-3 py-2"
+              style={{ backgroundColor: "#14b8a6" }}
             >
-              <i className="bi bi-telephone-fill me-2"></i> Hotline: 0922222016
-            </Nav.Link>
-            <Button variant="info" className="text-white fw-bold">
-              Liên hệ MixiVivu
-            </Button>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+              Liên hệ ViVu Tour
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
   );
-}
+};
 
 export default Header;
