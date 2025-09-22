@@ -1,5 +1,6 @@
 import React from "react";
 import { Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -21,9 +22,12 @@ const Header = () => {
 
           {/* Navbar */}
           <nav className="d-none d-md-flex gap-4">
-            <a href="#" className="text-decoration-none text-dark link-hover">
+            <Link
+              to="/toursearch"
+              className="text-decoration-none text-dark link-hover"
+            >
               Tìm Tour
-            </a>
+            </Link>
             <a href="#" className="text-decoration-none text-dark link-hover">
               Tìm vé máy bay
             </a>

@@ -1,0 +1,9 @@
+.tour-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.no-tours {
+  text-align: center;
+  color: #888;
+}

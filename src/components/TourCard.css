@@ -1,0 +1,64 @@
+.tour-card {
+  display: flex;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: 0.2s;
+}
+.tour-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.tour-card-img {
+  flex: 1;
+}
+.tour-card-img img {
+  width: 100%;
+  height: 100%;
+  max-height: 180px;
+  object-fit: cover;
+}
+.tour-card-content {
+  flex: 2;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.tour-card-content h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.tour-card-content h3:hover {
+  color: #007bff;
+}
+.destination {
+  font-size: 13px;
+  color: #777;
+}
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+.price {
+  font-size: 15px;
+  font-weight: bold;
+  color: #131516;
+}
+.btn-book {
+  background: #14b8a6;
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-book:hover {
+  background: #218838;
+}

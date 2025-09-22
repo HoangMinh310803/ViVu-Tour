@@ -1,0 +1,43 @@
+.tour-search-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+}
+
+.search-box {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.search-box h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.search-input input {
+  width: 60%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 14px;
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+}
+.sidebar {
+  flex: 1;
+}
+.tour-list-container {
+  flex: 3;
+}
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
