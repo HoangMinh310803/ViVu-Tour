@@ -10,6 +10,12 @@ const TourDetail = () => {
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    if (tour) {
+      setTotalPrice(tour.price || 0);
+    }
+  }, [tour]);
 
   useEffect(() => {
     const fetchTour = async () => {
@@ -42,7 +48,7 @@ const TourDetail = () => {
           <div className="tour-meta">
             <span className="tour-brand">
               <strong>Thời gian tour: </strong>{" "}
-              {tour.duration + " ngày" || "0 ngày"} 
+              {tour.duration + " ngày" || "0 ngày"}
             </span>
             <span className="tour-status">
               <strong>Tình trạng: </strong>{" "}
@@ -52,8 +58,8 @@ const TourDetail = () => {
 
           <div className="tour-price">
             <span className="price">
-              {tour.price
-                ? tour.price.toLocaleString("vi-VN") + "đ"
+              {totalPrice
+                ? totalPrice.toLocaleString("vi-VN") + "đ"
                 : "Liên hệ"}
             </span>
           </div>
@@ -65,7 +71,12 @@ const TourDetail = () => {
             }}
           />
 
-          <BookingForm />
+          <BookingForm
+            price={tour.price || 0}
+            onQuantityChange={(quantity) =>
+              setTotalPrice(quantity * tour.price)
+            }
+          />
 
           <div className="contact-info">
             <span>Gọi </span>

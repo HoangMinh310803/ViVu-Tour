@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-
-const BookingForm = () => {
+import authService from "../../../authService";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+const BookingForm = ({ price, onQuantityChange }) => {
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -12,11 +14,28 @@ const BookingForm = () => {
   });
 
   const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value, 10) || 1;
     setQuantity(parseInt(e.target.value));
+    if (onQuantityChange) {
+      onQuantityChange(value); // gửi lên parent
+    }
   };
-
+  const Navigate = useNavigate();
   const handleBooking = () => {
-    setShowModal(true);
+    if (!quantity || quantity < 1) {
+      Swal.fire({
+        icon: "warning",
+        title: "Số lượng không hợp lệ",
+        text: "Vui lòng nhập số lượng ≥ 1",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+    if (user) {
+      setShowModal(true);
+    } else {
+      Navigate("/login");
+    }
   };
 
   const handleCloseModal = () => {
@@ -30,7 +49,7 @@ const BookingForm = () => {
       [name]: value,
     }));
   };
-
+  const user = authService.getUser();
   const handleSubmit = () => {
     if (!formData.name || !formData.phone || !formData.date) {
       alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
@@ -39,11 +58,12 @@ const BookingForm = () => {
     alert("Đặt tour thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
     setShowModal(false);
     setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      date: "",
-      note: "",
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      numOfBooking: formData.numOfBooking,
+      date: formData.date,
+      note: formData.note,
     });
   };
 
@@ -137,6 +157,7 @@ const BookingForm = () => {
               <input
                 type="text"
                 id="quantity-display"
+                name="numOfBooking"
                 value={`${quantity} người`}
                 readOnly
                 className="form-input readonly"
@@ -230,7 +251,7 @@ const BookingForm = () => {
         }
 
         .btn-primary {
-          background: #14B8A6;
+          background: #14b8a6;
           color: white;
           box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
@@ -286,7 +307,7 @@ const BookingForm = () => {
         }
 
         .modal-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #14b8a6;
           color: white;
           padding: 25px 30px;
           display: flex;
