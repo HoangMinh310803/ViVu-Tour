@@ -3,7 +3,7 @@ import Header1 from "../components/Header";
 import Header2 from '../components/TourDetail/Header/Header';
 import MainContent from '../components/TourDetail/MainContent/MainContent';
 import FloatingButtons from '../components/TourDetail/FloatingButtons/FloatingButtons';
-import './TourDetailPage.css';
+import './tourdetailpage.css';
 import Footer from '../components/Footer';
 function App() {
   return (
