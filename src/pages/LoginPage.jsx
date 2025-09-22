@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // 1. Import Link từ react-router-dom
+import { Link, useNavigate } from "react-router-dom";
 import { styles } from "../styles";
 import { User, Lock, Compass } from "lucide-react";
 import apiClient from "../apiConfig";
-import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -19,40 +19,58 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await apiClient.post("/api/Authorize/login", {
+      // 1. Gọi API login để lấy token
+      const loginResponse = await apiClient.post("/api/Authorize/login", {
         username,
         password,
       });
-      const token = response.data.token;
-      localStorage.setItem("token", token); // lưu token
-      if (token) {
-        apiClient
-          .get("/api/Authorize/me")
-          .then((res) => setUser(res.data))
-          .catch(() => setUser(null));
-      }
-      console.log("Login success:", response.data);
 
-      navigate("/"); // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
-      setError("");
+      const token = loginResponse.data.token;
+
+      // 2. Lưu token vào localStorage
+      localStorage.setItem("token", token);
+      console.log("Login success, token received.");
+
+      // 3. Dùng token để gọi API /me lấy thông tin user
+      // SỬA LỖI Ở ĐÂY: Dùng đúng apiClient.get và endpoint "/api/Authorize/me"
+      const meResponse = await apiClient.get("/api/Authorize/me");
+      const currentUser = meResponse.data;
+      console.log("Current user info:", currentUser);
+
+      // 4. KIỂM TRA ROLE VÀ ĐIỀU HƯỚNG
+      if (currentUser && currentUser.role === "Admin") {
+        // Nếu là Admin, chuyển hướng đến trang admin
+        // Sửa lại path cho đúng với router của bạn, ví dụ: "/admin-dashboard"
+        navigate("/admin");
+      } else {
+        // Nếu không, chuyển hướng đến trang chủ
+        navigate("/");
+      }
+
+      setError(""); // Xóa thông báo lỗi nếu đăng nhập thành công
     } catch (err) {
       console.error("Login error:", err);
+      localStorage.removeItem("token");
       setError("Tên đăng nhập hoặc mật khẩu không đúng.");
     }
   };
+
   const handleLogout = async () => {
     try {
-      await apiClient.post("/api/Authorize/logout"); // gọi logout API
+      await apiClient.post("/api/Authorize/logout");
+      localStorage.removeItem("token");
       alert("Đã đăng xuất!");
+      navigate("/login"); // Chuyển về trang đăng nhập sau khi logout
     } catch (err) {
       console.error("Logout error:", err);
     }
   };
+
   return (
     <div style={styles.loginContainer}>
       <div style={styles.loginBox}>
         <div style={styles.loginHeader}>
-          <div style={styles.logo}>
+          <div style={styles.logo2}>
             <Compass size={20} color="white" />
           </div>
           <h1 style={styles.loginTitle}>Vivu Tour</h1>
@@ -109,7 +127,7 @@ const LoginPage = () => {
           <button
             type="submit"
             style={{
-              ...styles.primaryButton,
+              ...styles.primaryButton2,
               width: "100%",
               justifyContent: "center",
             }}
@@ -118,14 +136,13 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* 2. Thêm liên kết đến trang đăng ký */}
         <p style={styles.registerLinkContainer}>
           Chưa có tài khoản?{" "}
           <Link to="/register" style={styles.registerLink}>
             Đăng ký
           </Link>
         </p>
-        {/* Nút Logout để test */}
+
         <button
           onClick={handleLogout}
           style={{

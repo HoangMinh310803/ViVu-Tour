@@ -1,11 +1,6 @@
-// src/styles/index.js
-// Đây là nơi tập trung toàn bộ style cho ứng dụng của bạn.
-// Việc tách ra file riêng giúp mã nguồn gọn gàng và dễ bảo trì hơn.
+// src/styles.js
 
 export const styles = {
-  // =======================================================
-  // GENERAL LAYOUT & DASHBOARD STYLES
-  // =======================================================
   container: {
     display: "flex",
     height: "100vh",
@@ -33,6 +28,15 @@ export const styles = {
     display: "flex",
     alignItems: "center",
     gap: "12px",
+  },
+  logo: {
+    width: "32px",
+    height: "32px",
+    backgroundColor: "#14B8A6",
+    borderRadius: "8px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   logoText: { fontSize: "20px", fontWeight: "bold", color: "#1f2937" },
   nav: { marginTop: "32px" },
@@ -333,22 +337,19 @@ export const styles = {
   formGroup: { marginBottom: "20px" },
   formLabel: {
     display: "block",
-    fontWeight: "600",
+    fontWeight: "500",
     color: "#374151",
     marginBottom: "8px",
     fontSize: "14px",
   },
   formInput: {
     width: "100%",
-    padding: "12px 16px 12px 44px",
-    borderRadius: "8px",
+    padding: "10px",
+    borderRadius: "6px",
     border: "1px solid #d1d5db",
     outline: "none",
     boxSizing: "border-box",
-    backgroundColor: "#f9fafb",
-    color: "#1f2937",
-    fontSize: "16px",
-    transition: "border-color 0.2s, box-shadow 0.2s",
+    backgroundColor: "white",
   },
   formTextarea: {
     width: "100%",
@@ -449,7 +450,6 @@ export const styles = {
     display: "flex",
     justifyContent: "flex-end",
   },
-
   // =======================================================
   // LOGIN PAGE STYLES
   // =======================================================
@@ -480,7 +480,7 @@ export const styles = {
     alignItems: "center",
     marginBottom: "24px",
   },
-  logo: {
+  logo2: {
     width: "48px",
     height: "48px",
     backgroundColor: "#14B8A6",
@@ -550,7 +550,7 @@ export const styles = {
     textDecoration: "none",
     fontWeight: "600",
   },
-  primaryButton: {
+  primaryButton2: {
     width: "100%",
     padding: "12px",
     backgroundColor: "#14B8A6",
