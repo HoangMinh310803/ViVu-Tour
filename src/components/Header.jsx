@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        // Lấy fullName hoặc username từ payload
+        setUser({
+          name: decoded.unique_name,
+        });
+        console.log("Decoded JWT:", decoded);
+      } catch (err) {
+        console.error("Invalid token:", err);
+        setUser(null);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
+
   return (
     <header className="bg-white border-bottom shadow-sm">
       <div className="container">
@@ -48,12 +73,35 @@ const Header = () => {
               <Phone size={16} className="me-1" />
               <span>Hotline: 0922222016</span>
             </div>
+
             <button
               className="btn btn-sm text-white px-3 py-2"
               style={{ backgroundColor: "#14b8a6" }}
             >
               Liên hệ ViVu Tour
             </button>
+
+            {/* Login / Hello user */}
+            {user ? (
+              <div className="d-flex align-items-center gap-2">
+                <span className="text-dark fw-semibold">
+                  Hello, {user.name}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-outline-secondary btn-sm"
+                >
+                  Đăng xuất
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="btn btn-outline-primary btn-sm px-3 py-2"
+              >
+                Đăng nhập
+              </Link>
+            )}
           </div>
         </div>
       </div>
