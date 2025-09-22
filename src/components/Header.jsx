@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -38,11 +40,15 @@ const Header = () => {
               <div
                 className="d-flex align-items-center justify-content-center bg-teal rounded-circle"
                 style={{ width: "32px", height: "32px" }}
-              >
-                <span className="text-white fw-bold small">M</span>
-              </div>
+              ></div>
             </div>
-            <span className="fs-4 fw-semibold text-dark">ViVu Tour</span>
+            <span
+              className="fs-4 fw-semibold text-dark"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/")}
+            >
+              ViVu Tour
+            </span>
           </div>
 
           {/* Navbar */}
