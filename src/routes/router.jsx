@@ -4,7 +4,7 @@ import HomePage from "../pages/HomePage";
 import AdminDashboard from "../components/admin/AdminDashboard";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import TourSearchPage from "../components/TourSearchPage";
+import TourSearchPage from "../pages/TourSearchPage";
 
 import TourDetailPage from "../pages/TourDetailPage";
 import AdminRoute from "../components/admin/AdminRoute";
