@@ -1,7 +1,7 @@
 // src/apiConfig.js
 import axios from "axios";
 
-export const BASE_URL = "http://tourapi.somee.com/";
+export const BASE_URL = "https://bookingtour20251004231811-fddtasa2a9gpeubz.canadacentral-01.azurewebsites.net/";
 
 const apiClient = axios.create({
   baseURL: BASE_URL,

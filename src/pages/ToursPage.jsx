@@ -62,7 +62,7 @@ const ToursPage = ({ resetToken }) => {
   const handleSaveTour = async (tourData) => {
     try {
       if (tourData.tourId) {
-        await apiClient.put(`/api/Tour/Edit:${tourData.tourId}`, tourData);
+        await apiClient.put(`/api/Tour/${tourData.tourId}`, tourData);
       } else {
         await apiClient.post("/api/Tour/Create", tourData);
       }
@@ -92,14 +92,26 @@ const ToursPage = ({ resetToken }) => {
     setIsFormModalOpen(true);
   };
 
-  const handleEditClick = (tour) => {
-    setSelectedTour(tour);
-    setIsFormModalOpen(true);
+  const handleEditClick = async (tour) => {
+    try {
+      const res = await apiClient.get(`/api/Tour/${tour.tourId}`);
+      setSelectedTour(res.data); // gán object chi tiết lấy từ API
+      setIsFormModalOpen(true);
+    } catch (err) {
+      console.error("Không lấy được tour chi tiết", err);
+      alert("Không thể tải thông tin tour để chỉnh sửa!");
+    }
   };
 
-  const handleViewClick = (tour) => {
-    setSelectedTour(tour);
-    setIsViewModalOpen(true);
+  const handleViewClick = async (tour) => {
+    try {
+      const res = await apiClient.get(`/api/Tour/${tour.tourId}`);
+      setSelectedTour(res.data); // gán object chi tiết lấy từ API
+      setIsViewModalOpen(true);
+    } catch (err) {
+      console.error("Không lấy được tour chi tiết", err);
+      alert("Không thể tải thông tin tour để xem!");
+    }
   };
 
   const handleDeleteClick = (tour) => {

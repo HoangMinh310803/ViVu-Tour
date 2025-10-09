@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import authService from "../../../authService";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import ZaloButton from "./Zalo";
 const BookingForm = ({ price, onQuantityChange }) => {
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
@@ -86,7 +87,12 @@ const BookingForm = ({ price, onQuantityChange }) => {
           📅 ĐẶT TOUR
         </button>
       </div>
-
+      <div className="zalo-button-container">
+        <ZaloButton
+          phoneNumber="0987654321"
+          label="Bạn cần tư vấn? Liên hệ ngay!"
+        />
+      </div>
       {/* Modal Overlay */}
       <div className={`modal-overlay ${showModal ? "active" : ""}`}>
         <div className={`modal-container ${showModal ? "active" : ""}`}>
@@ -206,6 +212,40 @@ const BookingForm = ({ price, onQuantityChange }) => {
           background: white;
           border-radius: 12px;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .zalo-button-container {
+          text-align: center;
+        }
+
+        .zalo-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 24px;
+          border-radius: 50px;
+          font-size: 16px;
+          font-weight: 600;
+          color: white;
+          background: linear-gradient(135deg, #0068ff, #00c6ff);
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 4px 10px rgba(0, 104, 255, 0.4);
+          transition: all 0.3s ease;
+        }
+
+        .zalo-button:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 15px rgba(0, 104, 255, 0.6);
+        }
+
+        .zalo-button:active {
+          transform: scale(0.97);
+        }
+
+        .zalo-button img {
+          width: 20px;
+          height: 20px;
         }
 
         .quantity-selector {
