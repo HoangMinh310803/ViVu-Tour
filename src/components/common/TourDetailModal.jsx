@@ -410,7 +410,48 @@ const TourDetailModal = ({ isOpen, tour, onClose }) => {
               />
             </div>
           )}
-
+          {tour.tourSchedules && tour.tourSchedules.length > 0 && (
+            <div style={{ marginBottom: '24px'}}>
+              <h3 style={{
+                margin: '0 0 16px 0',
+                fontSize: '20px',
+                fontWeight: '600',
+                color: '#1f2937',
+                borderBottom: '2px solid #e5e7eb',
+                paddingBottom: '8px'
+              }}>
+                Lịch trình tour
+              </h3>
+              <div style={{ display: 'flex', gap: '16px' }}>
+                {tour.tourSchedules.map((schedule, index) => (
+                  <div key={index} style={{
+                    backgroundColor: '#f8fafc',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '12px',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{
+                      backgroundColor: '#0D7A6E',
+                      color: 'white',
+                      padding: '12px 20px',
+                      fontWeight: '600',
+                      fontSize: '16px'
+                    }}>
+                      {new Date(schedule.startDate).toLocaleDateString("vi-VN")}
+                    </div>
+                    <div style={{
+                      padding: '20px',
+                      lineHeight: '1.6',
+                      color: '#374151'
+                    }}>
+                      <p>Số chỗ còn trống: <strong>{schedule.availableSlots}</strong></p>
+                      <p>Ghi chú: <strong>{schedule.note}</strong></p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           {/* Tour Conditions */}
           {tour.tourConditions && tour.tourConditions.length > 0 && (
             <div style={{ marginBottom: '24px' }}>
