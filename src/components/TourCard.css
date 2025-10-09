@@ -62,3 +62,11 @@
 .btn-book:hover {
   background: #218838;
 }
+.btn-book .zalo-button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}

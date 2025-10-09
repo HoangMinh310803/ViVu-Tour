@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TourFilter from "../components/TourFilter";
-import TourList from "./TourList";
+import TourList from "../components/TourList";
 import Pagination from "../components/Pagination";
 import { getTourSearch, getAllTours } from "../services/tourService";
-import "./TourSearchPage.css"; // 👈 import css riêng
+import "./TourSearchPage.css";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 const TourSearchPage = () => {
   const [tours, setTours] = useState([]);
