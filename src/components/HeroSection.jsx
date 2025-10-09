@@ -1,14 +1,40 @@
-import React, { useState } from "react";
-import { Search, MapPin } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { getAllTours } from "../services/tourService";
 
 const HeroSection = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [location, setLocation] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
+  const [locations, setLocations] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleSearch = () => {
-    onSearch({ searchTerm, location, priceRange });
+    onSearch({ location, priceRange });
+    navigate("/toursearch");
   };
+
+  // 🟢 Lấy dữ liệu thật từ API khi load trang
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const data = await getAllTours();
+        const uniqueLocations = [
+          ...new Set(
+            data
+              .map((tour) => tour.destination?.trim())
+              .filter((d) => d && d !== "")
+          ),
+        ];
+        setLocations(uniqueLocations);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách tour:", error);
+      }
+    };
+
+    fetchTours();
+  }, []);
 
   return (
     <section
@@ -18,45 +44,24 @@ const HeroSection = ({ onSearch }) => {
       }}
     >
       <div className="container">
-        {/* Title */}
+        {/* Tiêu đề */}
         <div className="text-center mb-5">
           <h1 className="fw-bold text-dark display-5 mb-3">
-            Hãy đến với ViVu Tour?
+            Hãy đến với ViVu Tour!
           </h1>
           <p className="fs-5 text-muted">
             Hơn 100 tour khắp các tỉnh miền Bắc giá tốt đang chờ bạn
           </p>
         </div>
 
-        {/* Search Box */}
+        {/* Form lọc */}
         <div
           className="bg-white rounded-4 shadow p-4 mx-auto"
-          style={{ maxWidth: "900px" }}
+          style={{ maxWidth: "700px" }}
         >
           <div className="row g-3 align-items-center">
-            {/* Search Input */}
-            <div className="col-12 col-md-4 position-relative">
-              <Search
-                size={18}
-                className="position-absolute"
-                style={{
-                  left: "12px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  color: "#9ca3af",
-                }}
-              />
-              <input
-                type="text"
-                className="form-control ps-5"
-                placeholder="Nhập tên Tour"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
-            {/* Location Select */}
-            <div className="col-12 col-md-3 position-relative">
+            {/* Select địa điểm */}
+            <div className="col-12 col-md-5 position-relative">
               <MapPin
                 size={18}
                 className="position-absolute"
@@ -73,13 +78,16 @@ const HeroSection = ({ onSearch }) => {
                 onChange={(e) => setLocation(e.target.value)}
               >
                 <option value="all">Tất cả địa điểm</option>
-                <option value="halong">Vịnh Hạ Long</option>
-                <option value="catba">Cát Bà</option>
+                {locations.map((loc, index) => (
+                  <option key={index} value={loc}>
+                    {loc}
+                  </option>
+                ))}
               </select>
             </div>
 
-            {/* Price Range */}
-            <div className="col-12 col-md-3 position-relative">
+            {/* Select giá */}
+            <div className="col-12 col-md-5 position-relative">
               <span
                 className="position-absolute"
                 style={{
@@ -103,7 +111,7 @@ const HeroSection = ({ onSearch }) => {
               </select>
             </div>
 
-            {/* Search Button */}
+            {/* Nút tìm kiếm */}
             <div className="col-12 col-md-2">
               <button
                 onClick={handleSearch}
