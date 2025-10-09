@@ -1,441 +1,383 @@
-import React, { useState } from "react";
-import authService from "../../../authService";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-const BookingForm = ({ price, onQuantityChange }) => {
+import { FiCalendar, FiUser, FiPhone, FiMail, FiEdit3, FiUsers, FiClock } from "react-icons/fi";
+import apiConfig from "../../../apiConfig";
+import authService from "../../../authService";
+const ZaloButton = ({ phoneNumber, label, style }) => (
+  <a href={`https://zalo.me/${phoneNumber}`} target="_blank" rel="noopener noreferrer" style={style.zaloButton}>
+    <img src="https://res.cloudinary.com/dp15bjk0a/image/upload/v1759972785/2048px-Icon_of_Zalo.svg_eyypss.png" alt="Zalo Icon" style={style.zaloIcon} />
+    {label}
+  </a>
+);
+// --- Kết thúc phần giả lập ---
+
+const BookingForm = ({ tourPrice, tourId, onQuantityChange }) => {
+  // --- Định nghĩa tất cả các Style Objects ở đây ---
+  const styles = {
+    bookingCard: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '16px',
+      padding: '20px',
+      background: '#ffffff',
+      borderRadius: '12px',
+      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      border: '1px solid #e2e8f0',
+    },
+    quantitySelector: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '15px',
+    },
+    quantityLabel: {
+      fontSize: '25px',
+      fontWeight: 600,
+      color: '#0f172a',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '15px',
+    },
+    quantityInput: {
+      width: '80px',
+      padding: '10px 12px',
+      border: '1px solid #e2e8f0',
+      borderRadius: '8px',
+      fontSize: '16px',
+      textAlign: 'center',
+    },
+    zaloButtonContainer: {
+      marginTop: '20px',
+      textAlign: 'center',
+    },
+    zaloButton: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '10px',
+      padding: '10px 20px',
+      borderRadius: '50px',
+      fontSize: '15px',
+      fontWeight: 600,
+      color: 'white',
+      background: 'linear-gradient(45deg, #0180c7, #04a8f4)',
+      border: 'none',
+      cursor: 'pointer',
+      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      textDecoration: 'none',
+    },
+    zaloIcon: {
+      width: '20px',  
+      height: '20px',
+    },
+    btn: {
+      padding: '5px 10px',
+      border: 'none',
+      borderRadius: '8px',
+      fontSize: '16px',
+      fontWeight: 600,
+      cursor: 'pointer',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '8px',
+    },
+    btnPrimary: {
+      backgroundColor: '#14b8a6',
+      color: 'white',
+    },
+    btnSecondary: {
+      backgroundColor: '#f1f5f9',
+      color: '#64748b',
+      border: '1px solid #e2e8f0',
+    },
+    modalOverlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+      opacity: 0,
+      visibility: 'hidden',
+      transition: 'opacity 0.3s ease, visibility 0.3s ease',
+    },
+    modalOverlayActive: {
+      opacity: 1,
+      visibility: 'visible',
+    },
+    modalContainer: {
+      background: '#ffffff',
+      borderRadius: '12px',
+      maxWidth: '550px',
+      width: '90%',
+      maxHeight: '90vh',
+      display: 'flex',
+      flexDirection: 'column',
+      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+      transform: 'scale(0.95)',
+      transition: 'transform 0.3s ease',
+    },
+    modalContainerActive: {
+      transform: 'scale(1)',
+    },
+    modalHeader: {
+      padding: '20px 30px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderBottom: '1px solid #e2e8f0',
+    },
+    modalTitle: {
+      margin: 0,
+      fontSize: '22px',
+      color: '#0f172a',
+    },
+    closeBtn: {
+      background: 'none',
+      border: 'none',
+      fontSize: '28px',
+      color: '#64748b',
+      cursor: 'pointer',
+    },
+    modalBody: {
+      padding: '30px',
+      overflowY: 'auto',
+      flexGrow: 1,
+    },
+    formGroup: {
+      marginBottom: '20px',
+    },
+    formLabel: {
+      display: 'block',
+      marginBottom: '8px',
+      fontWeight: 500,
+      color: '#475569',
+      fontSize: '14px',
+    },
+    inputWithIcon: {
+      position: 'relative',
+    },
+    inputIcon: {
+      position: 'absolute',
+      left: '15px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      color: '#64748b',
+    },
+    textareaIcon: {
+        position: 'absolute',
+        left: '15px',
+        top: '18px',
+        color: '#64748b',
+    },
+    formInput: {
+      width: '100%',
+      padding: '12px 15px 12px 45px',
+      border: '1px solid #e2e8f0',
+      borderRadius: '8px',
+      fontSize: '16px',
+      backgroundColor: '#f8fafc',
+      boxSizing: 'border-box',
+      color: '#0f172a',
+      appearance: 'none',
+    },
+    selectInput: {
+        backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+        backgroundPosition: 'right 0.7rem center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '1.5em 1.5em',
+        paddingRight: '2.5rem',
+    },
+    readonlyInput: {
+      backgroundColor: '#e9ecef',
+      cursor: 'not-allowed',
+    },
+    modalFooter: {
+      display: 'flex',
+      gap: '12px',
+      justifyContent: 'flex-end',
+      padding: '20px 30px',
+      borderTop: '1px solid #e2e8f0',
+    },
+  };
+  
+  // --- States và Logic của component ---
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    date: "",
-    note: "",
-  });
+  const initialFormData = { fullName: "", phoneNumber: "", email: "", scheduleId: "", notes: "" , totalAmount: tourPrice * quantity};
+  const [formData, setFormData] = useState(initialFormData);
+  const [schedules, setSchedules] = useState([]);
+  const [isLoadingSchedules, setIsLoadingSchedules] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+  const user = authService.getUser();
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      if (!tourId) return;
+      setIsLoadingSchedules(true);
+      setError(null);
+      try {
+        const response = await apiConfig.get(`/api/Tour/${tourId}/schedules`);
+        setSchedules(response.data);
+      } catch (err) {
+        setError("Không thể tải được lịch trình.");
+      } finally {
+        setIsLoadingSchedules(false);
+      }
+    };
+    fetchSchedules();
+  }, [tourId]);
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value, 10) || 1;
-    setQuantity(parseInt(e.target.value));
-    if (onQuantityChange) {
-      onQuantityChange(value); // gửi lên parent
-    }
+    setQuantity(value);
+    if (onQuantityChange) onQuantityChange(value);
   };
-  const Navigate = useNavigate();
-  const handleBooking = () => {
+
+  const handleBookingClick = () => {
     if (!quantity || quantity < 1) {
-      Swal.fire({
-        icon: "warning",
-        title: "Số lượng không hợp lệ",
-        text: "Vui lòng nhập số lượng ≥ 1",
-        confirmButtonText: "OK",
-      });
+      Swal.fire({ icon: "warning", title: "Số lượng không hợp lệ" });
       return;
     }
-    if (user) {
-      setShowModal(true);
-    } else {
-      Navigate("/login");
-    }
+    if (user) setShowModal(true);
+    else navigate("/login");
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-  const user = authService.getUser();
-  const handleSubmit = () => {
-    if (!formData.name || !formData.phone || !formData.date) {
-      alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
+  const handleCloseModal = () => !isSubmitting && setShowModal(false);
+  const handleInputChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleSubmit = async () => {
+    if (!formData.fullName || !formData.phoneNumber || !formData.scheduleId) {
+      Swal.fire({ icon: "error", title: "Thiếu thông tin bắt buộc (*)" });
       return;
     }
-    alert("Đặt tour thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
-    setShowModal(false);
-    setFormData({
-      name: formData.name,
-      phone: formData.phone,
-      email: formData.email,
-      numOfBooking: formData.numOfBooking,
-      date: formData.date,
-      note: formData.note,
-    });
-  };
+    setIsSubmitting(true);
+    // Tính toán tổng tiền ngay trước khi gửi
+    const finalTotalAmount = tourPrice * quantity;
 
+    // Tạo payload để gửi đi, đảm bảo tính nhất quán
+    const bookingData = {
+      tourId: tourId,
+      userId: user.UserId,
+      numberOfPeople: quantity, // Sử dụng 'quantity'
+      ...formData,
+      totalAmount: finalTotalAmount, // Ghi đè giá trị totalAmount cũ
+    };
+    console.log("Dữ liệu gửi đi:", bookingData);
+    try {
+      await apiConfig.post('/api/Booking/CreateBooking', bookingData);
+      Swal.fire({ icon: "success", title: "Đặt tour thành công!" });
+      setShowModal(false);
+      setFormData(initialFormData);
+    } catch (err) {
+      Swal.fire({ icon: "error", title: "Đã có lỗi xảy ra" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  const formatDate = (dateString) => new Date(dateString).toLocaleDateString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+  // --- JSX với Inline Styles ---
   return (
     <>
-      <div className="booking-form">
-        <div className="quantity-selector">
-          <label htmlFor="quantity">Số lượng:</label>
+      <div style={styles.bookingCard}>
+        <div style={styles.quantitySelector}>
+          <label htmlFor="quantity" style={styles.quantityLabel}><FiUsers /></label>
           <input
-            type="number"
-            id="quantity"
-            min="1"
-            value={quantity}
-            onChange={handleQuantityChange}
-            className="quantity-input"
+            type="number" id="quantity" min="1"
+            value={quantity} onChange={handleQuantityChange}
+            style={styles.quantityInput}
           />
         </div>
-
-        <button className="btn btn-primary booking-btn" onClick={handleBooking}>
-          📅 ĐẶT TOUR
+        <button onClick={handleBookingClick} style={{ ...styles.btn, ...styles.btnPrimary }}>
+          <FiCalendar style={{ fontSize: '20px' }} /> ĐẶT TOUR NGAY
         </button>
       </div>
+      <div style={styles.zaloButtonContainer}>
+        <ZaloButton
+          phoneNumber="0987654321"
+          label="Cần tư vấn? Chat qua Zalo!"
+          style={{ zaloButton: styles.zaloButton, zaloIcon: styles.zaloIcon }}
+        />
+      </div>
 
-      {/* Modal Overlay */}
-      <div className={`modal-overlay ${showModal ? "active" : ""}`}>
-        <div className={`modal-container ${showModal ? "active" : ""}`}>
-          <div className="modal-header">
-            <h2>Thông tin đặt tour</h2>
-            <button className="close-btn" onClick={handleCloseModal}>
-              ×
-            </button>
+      {/* Modal */}
+      <div style={{ ...styles.modalOverlay, ...(showModal && styles.modalOverlayActive) }} onClick={handleCloseModal}>
+        <div style={{ ...styles.modalContainer, ...(showModal && styles.modalContainerActive) }} onClick={(e) => e.stopPropagation()}>
+          <div style={styles.modalHeader}>
+            <h2 style={styles.modalTitle}>Thông tin đặt tour</h2>
+            <button style={styles.closeBtn} onClick={handleCloseModal} disabled={isSubmitting}>×</button>
           </div>
 
-          <div className="booking-details-form">
-            <div className="form-group">
-              <label htmlFor="name">Họ và tên *</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="form-input"
-                placeholder="Nhập họ và tên của bạn"
-              />
+          <div style={styles.modalBody}>
+            <div style={styles.formGroup}>
+              <label htmlFor="name" style={styles.formLabel}>Họ và tên *</label>
+              <div style={styles.inputWithIcon}>
+                <FiUser style={styles.inputIcon} />
+                <input type="text" id="name" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Ví dụ: Nguyễn Văn A" required style={styles.formInput} />
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="phone">Số điện thoại *</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                className="form-input"
-                placeholder="Nhập số điện thoại"
-              />
+            <div style={styles.formGroup}>
+              <label htmlFor="phone" style={styles.formLabel}>Số điện thoại *</label>
+              <div style={styles.inputWithIcon}>
+                <FiPhone style={styles.inputIcon} />
+                <input type="tel" id="phone" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} placeholder="Nhập số điện thoại của bạn" required style={styles.formInput} />
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="form-input"
-                placeholder="Nhập địa chỉ email"
-              />
+            <div style={styles.formGroup}>
+              <label htmlFor="email" style={styles.formLabel}>Email</label>
+              <div style={styles.inputWithIcon}>
+                <FiMail style={styles.inputIcon} />
+                <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Nhập địa chỉ email (không bắt buộc)" style={styles.formInput} />
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="date">Ngày khởi hành *</label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={formData.date}
-                onChange={handleInputChange}
-                required
-                className="form-input"
-              />
+            <div style={styles.formGroup}>
+              <label htmlFor="scheduleId" style={styles.formLabel}>Ngày khởi hành *</label>
+              <div style={styles.inputWithIcon}>
+                <FiCalendar style={styles.inputIcon} />
+                <select id="scheduleId" name="scheduleId" value={formData.scheduleId} onChange={handleInputChange} required style={{...styles.formInput, ...styles.selectInput}}>
+                  <option value="" disabled>{isLoadingSchedules ? "Đang tải..." : "--- Chọn ngày khởi hành ---"}</option>
+                  {error && <option disabled>{error}</option>}
+                  {!isLoadingSchedules && schedules.length === 0 && !error && (<option disabled>Không có lịch trình</option>)}
+                  {schedules.map(s => <option key={s.scheduleId} value={s.scheduleId} disabled={s.availableSlots <= 0}>{`${formatDate(s.startDate)} - ${s.availableSlots > 0 ? `Còn ${s.availableSlots} chỗ` : "Hết chỗ"}`}</option>)}
+                </select>
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="quantity-display">Số lượng người</label>
-              <input
-                type="text"
-                id="quantity-display"
-                name="numOfBooking"
-                value={`${quantity} người`}
-                readOnly
-                className="form-input readonly"
-              />
+            <div style={styles.formGroup}>
+              <label htmlFor="quantity-display" style={styles.formLabel}>Số lượng người</label>
+              <div style={styles.inputWithIcon}>
+                <FiUsers style={styles.inputIcon} />
+                <input type="text" id="quantity-display" value={`${quantity} người`} readOnly style={{ ...styles.formInput, ...styles.readonlyInput }} />
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="note">Ghi chú</label>
-              <textarea
-                id="note"
-                name="note"
-                value={formData.note}
-                onChange={handleInputChange}
-                className="form-textarea"
-                placeholder="Yêu cầu đặc biệt hoặc ghi chú thêm..."
-                rows="3"
-              />
+            <div style={styles.formGroup}>
+              <label htmlFor="note" style={styles.formLabel}>Ghi chú</label>
+              <div style={styles.inputWithIcon}>
+                <FiEdit3 style={styles.textareaIcon} />
+                <textarea id="note" name="notes" value={formData.notes} onChange={handleInputChange} placeholder="Yêu cầu đặc biệt..." rows="3" style={styles.formInput} />
+              </div>
             </div>
-
-            <div className="form-actions">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleCloseModal}
-              >
-                Hủy
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-              >
-                Xác nhận đặt tour
-              </button>
-            </div>
+          </div>
+          
+          <div style={styles.modalFooter}>
+            <button type="button" onClick={handleCloseModal} disabled={isSubmitting} style={{ ...styles.btn, ...styles.btnSecondary }}>Hủy</button>
+            <button type="button" onClick={handleSubmit} disabled={isSubmitting} style={{ ...styles.btn, ...styles.btnPrimary, ...(isSubmitting && { opacity: 0.6, cursor: 'not-allowed' }) }}>
+              {isSubmitting ? <><FiClock /> Đang xử lý...</> : "Xác nhận đặt tour"}
+            </button>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .booking-form {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          padding: 20px;
-          background: white;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .quantity-selector {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .quantity-selector label {
-          font-weight: 600;
-          color: #333;
-        }
-
-        .quantity-input {
-          width: 70px;
-          padding: 8px 12px;
-          border: 2px solid #e1e5e9;
-          border-radius: 8px;
-          font-size: 16px;
-          text-align: center;
-          transition: all 0.3s ease;
-        }
-
-        .quantity-input:focus {
-          outline: none;
-          border-color: #007bff;
-          box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-        }
-
-        .btn {
-          padding: 12px 24px;
-          border: none;
-          border-radius: 10px;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-        }
-
-        .btn-primary {
-          background: #14b8a6;
-          color: white;
-          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-        }
-
-        .btn-secondary {
-          background: #f8f9fa;
-          color: #6c757d;
-          border: 2px solid #dee2e6;
-        }
-
-        .btn-secondary:hover {
-          background: #e9ecef;
-          border-color: #adb5bd;
-          transform: translateY(-1px);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.6);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-          opacity: 0;
-          visibility: hidden;
-        }
-
-        .modal-overlay.active {
-          opacity: 1;
-          visibility: visible;
-        }
-
-        .modal-container {
-          background: white;
-          border-radius: 20px;
-          padding: 0;
-          max-width: 500px;
-          width: 90%;
-          max-height: 90vh;
-          overflow: hidden;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-          position: relative;
-        }
-
-        .modal-header {
-          background: #14b8a6;
-          color: white;
-          padding: 25px 30px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          position: relative;
-        }
-
-        .modal-header h2 {
-          margin: 0;
-          font-size: 24px;
-          font-weight: 700;
-        }
-
-        .close-btn {
-          background: none;
-          border: none;
-          color: white;
-          font-size: 30px;
-          cursor: pointer;
-          padding: 5px;
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-        }
-
-        .close-btn:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: rotate(90deg);
-        }
-
-        .booking-details-form {
-          padding: 30px;
-          max-height: calc(90vh - 100px);
-          overflow-y: auto;
-        }
-
-        .form-group {
-          margin-bottom: 25px;
-          position: relative;
-        }
-
-        .form-group label {
-          display: block;
-          margin-bottom: 8px;
-          font-weight: 600;
-          color: #333;
-          font-size: 14px;
-        }
-
-        .form-input,
-        .form-textarea {
-          width: 100%;
-          padding: 15px;
-          border: 2px solid #e1e5e9;
-          border-radius: 12px;
-          font-size: 16px;
-          background: #fafbfc;
-          box-sizing: border-box;
-        }
-
-        .form-input:focus,
-        .form-textarea:focus {
-          outline: none;
-          border-color: #667eea;
-          background: white;
-          box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-          transform: translateY(-1px);
-        }
-
-        .form-input.readonly {
-          background: #f8f9fa;
-          color: #6c757d;
-          cursor: not-allowed;
-        }
-
-        .form-textarea {
-          resize: vertical;
-          min-height: 80px;
-        }
-
-        .form-actions {
-          display: flex;
-          gap: 15px;
-          justify-content: flex-end;
-          margin-top: 30px;
-          padding-top: 25px;
-          border-top: 2px solid #f1f3f4;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-          .modal-container {
-            width: 95%;
-            margin: 20px;
-          }
-
-          .booking-details-form {
-            padding: 20px;
-          }
-
-          .modal-header {
-            padding: 20px 25px;
-          }
-
-          .form-actions {
-            flex-direction: column;
-          }
-
-          .btn {
-            width: 100%;
-            justify-content: center;
-          }
-        }
-
-        /* Loading states and micro-interactions */
-        .form-input:valid {
-          border-color: #28a745;
-        }
-
-        .form-input:invalid:not(:placeholder-shown) {
-          border-color: #dc3545;
-        }
-      `}</style>
     </>
   );
 };

@@ -72,7 +72,8 @@ const TourDetail = () => {
           />
 
           <BookingForm
-            price={tour.price || 0}
+            tourPrice={tour.price || 0}
+            tourId={id}
             onQuantityChange={(quantity) =>
               setTotalPrice(quantity * tour.price)
             }
