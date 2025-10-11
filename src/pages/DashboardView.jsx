@@ -1,6 +1,5 @@
 // src/pages/DashboardView.js
 
-// 1. Thêm import cho useState, useEffect và apiClient
 import React, { useState, useEffect } from "react";
 import apiClient from "../apiConfig";
 
@@ -23,45 +22,47 @@ import {
   Package,
   TrendingUp,
   TrendingDown,
-  Eye,
 } from "lucide-react";
 
-// 2. Bỏ import `recentBookings` từ file data tĩnh
 import { salesData, pieData } from "../data";
 import { styles } from "../styles";
 import { getStatusStyle, getStatusText } from "../utils";
 
-const StatCard = ({ title, value, change, icon: Icon, trend }) => (
+// Cập nhật StatCard để xử lý trạng thái loading và không hiển thị 'change' nếu không có
+const StatCard = ({ title, value, change, icon: Icon, trend, loading }) => (
   <div style={styles.statCard}>
     <div style={styles.statCardContent}>
       <div style={styles.statCardLeft}>
         <p style={styles.statCardTitle}>{title}</p>
-        <p style={styles.statCardValue}>{value}</p>
-        <div style={styles.statCardChange}>
-          {trend === "up" ? (
-            <TrendingUp size={16} color="#10b981" />
-          ) : (
-            <TrendingDown size={16} color="#ef4444" />
-          )}
-          <span
-            style={{
-              ...styles.statCardTrend,
-              color: trend === "up" ? "#10b981" : "#ef4444",
-            }}
-          >
-            {change}
-          </span>
-          <span
-            style={{
-              ...styles.statCardTrend,
-              color: "#6b7280",
-              marginLeft: "4px",
-            }}
-          >
-            {" "}
-            so với tháng trước
-          </span>
-        </div>
+        <p style={styles.statCardValue}>{loading ? "..." : value}</p>
+        {/* Chỉ hiển thị dòng thay đổi khi không loading và có dữ liệu 'change' */}
+        {!loading && change && (
+          <div style={styles.statCardChange}>
+            {trend === "up" ? (
+              <TrendingUp size={16} color="#10b981" />
+            ) : (
+              <TrendingDown size={16} color="#ef4444" />
+            )}
+            <span
+              style={{
+                ...styles.statCardTrend,
+                color: trend === "up" ? "#10b981" : "#ef4444",
+              }}
+            >
+              {change}
+            </span>
+            <span
+              style={{
+                ...styles.statCardTrend,
+                color: "#6b7280",
+                marginLeft: "4px",
+              }}
+            >
+              {" "}
+              so với tháng trước
+            </span>
+          </div>
+        )}
       </div>
       <div style={styles.statCardIcon}>
         <Icon size={24} color="#14B8A6" />
@@ -71,34 +72,54 @@ const StatCard = ({ title, value, change, icon: Icon, trend }) => (
 );
 
 const DashboardView = ({ setActiveTab }) => {
-  // 3. Thêm state để quản lý danh sách booking, loading và lỗi
   const [recentBookings, setRecentBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loadingBookings, setLoadingBookings] = useState(true);
+  const [errorBookings, setErrorBookings] = useState(null);
 
-  // 4. Hàm gọi API để lấy 5 booking gần nhất
+  // MỚI: State cho số tour hoạt động
+  const [activeToursCount, setActiveToursCount] = useState(0);
+  const [loadingTours, setLoadingTours] = useState(true);
+
+  // Hàm gọi API để lấy 5 booking gần nhất
   const fetchRecentBookings = async () => {
     try {
-      setLoading(true);
+      setLoadingBookings(true);
       const response = await apiClient.get("/recent-bookings/5");
       setRecentBookings(response.data);
-      setError(null);
+      setErrorBookings(null);
     } catch (err) {
-      setError("Không thể tải các đơn đặt tour gần đây.");
+      setErrorBookings("Không thể tải các đơn đặt tour gần đây.");
       console.error(err);
     } finally {
-      setLoading(false);
+      setLoadingBookings(false);
     }
   };
 
-  // 5. Gọi API khi component được render lần đầu
+  // MỚI: Hàm gọi API để lấy số tour đang hoạt động từ endpoint mới
+  const fetchActiveToursCount = async () => {
+    try {
+      setLoadingTours(true);
+      // Gọi API mới, không cần tham số
+      const response = await apiClient.get("/active-tours-count");
+      // API trả về trực tiếp một con số
+      setActiveToursCount(response.data);
+    } catch (err) {
+      console.error("Lỗi khi tải số tour đang hoạt động:", err);
+      setActiveToursCount(0); // Đặt giá trị mặc định là 0 nếu có lỗi
+    } finally {
+      setLoadingTours(false);
+    }
+  };
+
+  // Gọi cả hai API khi component được render lần đầu
   useEffect(() => {
     fetchRecentBookings();
+    fetchActiveToursCount(); // MỚI: Gọi hàm mới
   }, []);
 
-  // 6. Hàm render bảng booking với logic loading/error
+  // ... hàm renderRecentBookings không thay đổi
   const renderRecentBookings = () => {
-    if (loading)
+    if (loadingBookings)
       return (
         <tr>
           <td colSpan="5" style={styles.tableCell}>
@@ -106,11 +127,11 @@ const DashboardView = ({ setActiveTab }) => {
           </td>
         </tr>
       );
-    if (error)
+    if (errorBookings)
       return (
         <tr>
           <td colSpan="5" style={{ ...styles.tableCell, color: "red" }}>
-            {error}
+            {errorBookings}
           </td>
         </tr>
       );
@@ -124,7 +145,6 @@ const DashboardView = ({ setActiveTab }) => {
       );
 
     return recentBookings.map((booking) => (
-      // 7. Sửa lại key và cách hiển thị dữ liệu cho đúng với API
       <tr key={booking.bookingId}>
         <td
           style={{ ...styles.tableCell, fontWeight: "500", color: "#1f2937" }}
@@ -156,33 +176,36 @@ const DashboardView = ({ setActiveTab }) => {
       <div style={styles.statsGrid}>
         <StatCard
           title="Tổng doanh thu"
-          value="128.5M đ"
+          value="2.5M đ"
           change="+12.5%"
           icon={DollarSign}
           trend="up"
         />
         <StatCard
           title="Đơn đặt tour"
-          value="1,234"
+          value="2"
           change="+8.2%"
           icon={ShoppingCart}
           trend="up"
         />
         <StatCard
           title="Khách hàng"
-          value="856"
+          value="8"
           change="+5.1%"
           icon={Users}
           trend="up"
         />
+        {/* MỚI: Cập nhật StatCard để dùng dữ liệu và trạng thái loading mới */}
         <StatCard
           title="Tour hoạt động"
-          value="42"
-          change="-2.4%"
+          value={activeToursCount}
           icon={Package}
-          trend="down"
+          loading={loadingTours}
+          // Bỏ phần change và trend vì API mới không cung cấp
         />
       </div>
+
+      {/* ...Phần còn lại của component không đổi... */}
 
       <div style={{ ...styles.chartsGrid, gridTemplateColumns: "2fr 1fr" }}>
         <div style={styles.chartCard}>
@@ -245,10 +268,7 @@ const DashboardView = ({ setActiveTab }) => {
                 <th style={styles.tableHeadCell}>Số tiền</th>
               </tr>
             </thead>
-            <tbody>
-              {/* Gọi hàm render mới ở đây */}
-              {renderRecentBookings()}
-            </tbody>
+            <tbody>{renderRecentBookings()}</tbody>
           </table>
         </div>
       </div>

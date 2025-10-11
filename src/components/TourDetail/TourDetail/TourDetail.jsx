@@ -59,7 +59,7 @@ const TourDetail = () => {
           <div className="tour-price">
             <span className="price">
               {totalPrice
-                ? totalPrice.toLocaleString("vi-VN") + "đ"
+                ? `Chỉ từ ${totalPrice.toLocaleString("vi-VN")}đ`
                 : "Liên hệ"}
             </span>
           </div>
