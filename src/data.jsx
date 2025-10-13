@@ -19,13 +19,13 @@ export const menuItems = [
 ];
 
 export const salesData = [
-  { name: "T1", sales: 4000, revenue: 2400 },
-  { name: "T2", sales: 3000, revenue: 1398 },
-  { name: "T3", sales: 2000, revenue: 9800 },
-  { name: "T4", sales: 2780, revenue: 3908 },
-  { name: "T5", sales: 1890, revenue: 4800 },
-  { name: "T6", sales: 2390, revenue: 3800 },
-  { name: "T7", sales: 3490, revenue: 4300 },
+  { name: "T10", sales: 8, revenue: 2500 },
+  { name: "T11", sales: 0, revenue: 0 },
+  { name: "T12", sales: 0, revenue: 0 },
+  { name: "T1", sales: 0, revenue: 0 },
+  { name: "T2", sales: 0, revenue: 0 },
+  { name: "T3", sales: 0, revenue: 0 },
+  { name: "T4", sales: 0, revenue: 0 },
 ];
 
 export const pieData = [
