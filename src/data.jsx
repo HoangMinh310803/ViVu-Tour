@@ -14,7 +14,7 @@ export const menuItems = [
   { id: "bookings", label: "Đặt Tour", icon: ShoppingCart },
   { id: "tours", label: "Quản lý Tour", icon: Package },
   { id: "customers", label: "Khách hàng", icon: Users },
-  { id: "analytics", label: "Thống kê", icon: BarChart3 },
+  // { id: "analytics", label: "Thống kê", icon: BarChart3 },
   { id: "settings", label: "Cài đặt", icon: Settings },
 ];
 
