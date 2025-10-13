@@ -41,6 +41,7 @@ const CruiseCard = ({ tour }) => {
         {/* Giá + Button */}
         <div className="d-flex justify-content-between align-items-center">
           <div>
+            Chỉ từ{" "}
             <span className="fs-5 fw-bold text-dark">
               {tour.price.toLocaleString("vi-VN")}₫
             </span>
