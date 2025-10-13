@@ -190,7 +190,7 @@ const DashboardView = ({ setActiveTab }) => {
         />
         <StatCard
           title="Khách hàng"
-          value="8"
+          value="23"
           change="+5.1%"
           icon={Users}
           trend="up"
