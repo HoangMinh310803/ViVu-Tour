@@ -176,22 +176,22 @@ const DashboardView = ({ setActiveTab }) => {
       <div style={styles.statsGrid}>
         <StatCard
           title="Tổng doanh thu"
-          value="2.5M đ"
-          change="+12.5%"
+          value="0"
+          change="0%"
           icon={DollarSign}
           trend="up"
         />
         <StatCard
           title="Đơn đặt tour"
           value="2"
-          change="+8.2%"
+          change="0%"
           icon={ShoppingCart}
           trend="up"
         />
         <StatCard
           title="Khách hàng"
           value="8"
-          change="+5.1%"
+          change="0%"
           icon={Users}
           trend="up"
         />
