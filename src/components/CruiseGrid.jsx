@@ -1,7 +1,7 @@
 import React from "react";
 import CruiseCard from "./CruiseCard";
 
-const CruiseGrid = ({ tours, title, description }) => {
+const CruiseGrid = ({ tours, title, description,onShowAll }) => {
   return (
     <section className="py-5 bg-light">
       <div className="container">
@@ -23,9 +23,10 @@ const CruiseGrid = ({ tours, title, description }) => {
         {/* Nút xem tất cả */}
         <div className="text-center mt-5">
           <button
-            className="btn btn-link text-decoration-none fw-medium d-inline-flex align-items-center"
-            style={{ color: "#14b8a6" }}
-          >
+        onClick={onShowAll}
+        className="btn btn-link text-decoration-none fw-medium d-inline-flex align-items-center"
+        style={{ color: "#14b8a6" }}
+      >
             Xem tất cả Tour
             <svg
               xmlns="http://www.w3.org/2000/svg"

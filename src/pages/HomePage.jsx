@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 const HomePage = () => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -48,9 +49,10 @@ const HomePage = () => {
       <HeroSection onSearch={handleSearch} />
 
       <CruiseGrid
-        tours={tours}
-        title="Tour nổi bật"
-        description="Khám phá những tour du lịch hấp dẫn nhất"
+        tours={showAll ? tours : tours.slice(0, 3)}
+         title="Tour nổi bật"
+         description="Khám phá những tour du lịch hấp dẫn nhất"
+         onShowAll={() => setShowAll(true)}
       />
 
       <TestimonialSection
