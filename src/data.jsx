@@ -19,7 +19,7 @@ export const menuItems = [
 ];
 
 export const salesData = [
-  { name: "T10", sales: 8, revenue: 2500 },
+  { name: "T10", sales: 8, revenue: 17500 },
   { name: "T11", sales: 0, revenue: 0 },
   { name: "T12", sales: 0, revenue: 0 },
   { name: "T1", sales: 0, revenue: 0 },
