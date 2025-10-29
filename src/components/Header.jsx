@@ -77,15 +77,18 @@ const Header = () => {
           <div className="d-flex align-items-center gap-3">
             <div className="d-flex align-items-center text-secondary small">
               <Phone size={16} className="me-1" />
-              <span>Hotline: 0922222016</span>
+              <span>Hotline: 0904895575</span>
             </div>
 
-            <button
-              className="btn btn-sm text-white px-3 py-2"
+            <a
+              href="https://www.facebook.com/profile.php?id=61580859876418"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-sm text-white px-3 py-2 text-decoration-none"
               style={{ backgroundColor: "#14b8a6" }}
             >
               Liên hệ ViVu Tour
-            </button>
+            </a>
 
             {/* Login / Hello user */}
             {user ? (
