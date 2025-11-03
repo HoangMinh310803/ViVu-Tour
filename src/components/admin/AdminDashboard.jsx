@@ -12,7 +12,7 @@ import DashboardView from "../../pages/DashboardView";
 import BookingsPage from "../../pages/BookingsPage";
 import ToursPage from "../../pages/ToursPage";
 import CustomersPage from "../../pages/CustomersPage";
-// import AnalyticsPage from "../../pages/AnalyticsPage";
+import AnalyticsPage from "../../pages/AnalyticsPage";
 import SettingsPage from "../../pages/SettingsPage";
 
 // Data and Styles
@@ -44,8 +44,8 @@ const AdminDashboard = () => {
         return <ToursPage resetToken={resetToken} />;
       case "customers":
         return <CustomersPage resetToken={resetToken} />;
-      // case "analytics":
-      //   return <AnalyticsPage />;
+      case "analytics":
+        return <AnalyticsPage />;
       case "settings":
         return <SettingsPage />;
       default:

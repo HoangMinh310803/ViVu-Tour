@@ -176,29 +176,29 @@ const DashboardView = ({ setActiveTab }) => {
       <div style={styles.statsGrid}>
         <StatCard
           title="Tổng doanh thu"
-          value="17.500.000đ"
-          change="0%"
+          value="2.5M đ"
+          change="+12.5%"
           icon={DollarSign}
           trend="up"
         />
         <StatCard
           title="Đơn đặt tour"
-          value="6"
-          change="0%"
+          value="2"
+          change="+8.2%"
           icon={ShoppingCart}
           trend="up"
         />
         <StatCard
           title="Khách hàng"
-          value="12"
-          change="0%"
+          value="23"
+          change="+5.1%"  
           icon={Users}
           trend="up"
         />
         {/* MỚI: Cập nhật StatCard để dùng dữ liệu và trạng thái loading mới */}
         <StatCard
           title="Tour hoạt động"
-          value="6"
+          value={activeToursCount}
           icon={Package}
           loading={loadingTours}
           // Bỏ phần change và trend vì API mới không cung cấp

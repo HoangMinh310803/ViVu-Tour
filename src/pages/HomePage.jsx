@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import CruiseGrid from "../components/CruiseGrid";
 import TestimonialSection from "../components/TestimonialSection";
-import Footer from "../components/Footer";
+import Footer from "../components/Footer";xxxx
 import {
   cruisesData,
   testimonialsData,
