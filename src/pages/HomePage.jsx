@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import CruiseGrid from "../components/CruiseGrid";
 import TestimonialSection from "../components/TestimonialSection";
-import Footer from "../components/Footer";xxxx
+import Footer from "../components/Footer";
 import {
   cruisesData,
   testimonialsData,
@@ -50,9 +50,9 @@ const HomePage = () => {
 
       <CruiseGrid
         tours={showAll ? tours : tours.slice(0, 3)}
-         title="Tour nổi bật"
-         description="Khám phá những tour du lịch hấp dẫn nhất"
-         onShowAll={() => setShowAll(true)}
+        title="Tour nổi bật"
+        description="Khám phá những tour du lịch hấp dẫn nhất"
+        onShowAll={() => setShowAll(true)}
       />
 
       <TestimonialSection

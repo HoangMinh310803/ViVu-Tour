@@ -309,6 +309,7 @@ const EventAnalyticsDashboard = () => {
           <button className="text-sm text-gray-500 border border-gray-300 rounded px-3 py-1">
             Constructing a row graph
           </button>
+          
         </div>
       </div>
 
