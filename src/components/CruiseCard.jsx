@@ -7,7 +7,9 @@ const CruiseCard = ({ tour }) => {
     tour.createdDate &&
     new Date(tour.createdDate) >=
       new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
-  
+  const sortedTours = [...tour].sort(
+    (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+  );
   return (
     <div className="card border-0 shadow-lg rounded-3 overflow-hidden h-100">
       {/* Ảnh */}

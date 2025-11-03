@@ -15,16 +15,13 @@ import {
 // 1. Số liệu giảm ~ một nửa
 // 2. Zalo (luôn <) Facebook
 const chartData = [
-  { date: "Sep 01", facebook: 20, zalo: 12, direct: 5 },
-  { date: "Sep 08", facebook: 15, zalo: 7, direct: 6 },
-  { date: "Sep 15", facebook: 10, zalo: 8, direct: 4 }, // Đã sửa (zalo 8 < fb 10)
-  { date: "Sep 22", facebook: 14, zalo: 12, direct: 2 }, // Đã sửa (zalo 12 < fb 14)
-  { date: "Sep 29", facebook: 9, zalo: 7, direct: 7 }, // Đã sửa (zalo 7 < fb 9)
-  { date: "Oct 06", facebook: 12, zalo: 10, direct: 5 }, // Đã sửa (zalo 10 < fb 12)
-  { date: "Oct 13", facebook: 17, zalo: 15, direct: 1 }, // Đã sửa (zalo 15 < fb 17)
-  { date: "Oct 20", facebook: 23, zalo: 15, direct: 3 },
-  { date: "Oct 27", facebook: 25, zalo: 18, direct: 8 },
-  { date: "Nov 03", facebook: 28, zalo: 20, direct: 4 },
+  { date: "Sep 18", facebook: 1, zalo: 0, direct: 1 }, // 2
+  { date: "Sep 25", facebook: 20, zalo: 15, direct: 5 }, // 40
+  { date: "Oct 02", facebook: 45, zalo: 30, direct: 15 }, // 90
+  { date: "Oct 09", facebook: 60, zalo: 40, direct: 20 }, // 120
+  { date: "Oct 16", facebook: 50, zalo: 35, direct: 15 }, // 100
+  { date: "Oct 23", facebook: 35, zalo: 25, direct: 10 }, // 70
+  { date: "Nov 03", facebook: 25, zalo: 20, direct: 5 }, // 50
 ];
 // ----------------------------------------------------
 

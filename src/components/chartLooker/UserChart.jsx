@@ -59,39 +59,31 @@ const tooltipOptions = {
 
 // ----- ĐỊNH NGHĨA DỮ LIỆU VÀ TÙY CHỈNH CHO TỪNG TAB -----
 const chartDataConfig = {
-  // Nhãn chung cho tất cả biểu đồ
-  labels: [
-    "01/09",
-    "08/09",
-    "15/09",
-    "22/09",
-    "29/09",
-    "06/10",
-    "13/10",
-    "20/10",
-    "27/10",
-    "03/11",
-  ],
+  // --- Cập nhật nhãn: bắt đầu từ ngày 15/09 ---
+  labels: ["18/09", "28/09", "08/10", "18/10", "28/10", "03/11"],
 
-  // Dữ liệu cho từng tab
   datasets: {
+    // Tổng giữ nguyên: 58
     newUser: {
-      data: [8, 10, 7, 12, 9, 15, 13, 18, 16, 11], // Dữ liệu mẫu cho 58 người dùng
-      yMax: 20, // Tùy chỉnh trục Y
+      data: [5, 9, 12, 14, 10, 8], // tổng = 58
+      yMax: 20,
       stepSize: 5,
     },
+    // Tổng giữ nguyên: 24
     oldUser: {
-      data: [2, 1, 3, 2, 4, 3, 5, 4, 6, 4], // Dữ liệu mẫu cho 24 người dùng
+      data: [1, 3, 5, 4, 6, 5], // tổng = 24
       yMax: 8,
       stepSize: 2,
     },
+    // Tổng giữ nguyên: 13
     potential: {
-      data: [1, 0, 2, 1, 3, 2, 1, 2, 3, 1], // Dữ liệu mẫu cho 13 khách
+      data: [0, 2, 3, 2, 4, 2], // tổng = 13
       yMax: 4,
       stepSize: 1,
     },
   },
 };
+
 // -----------------------------------------------------------
 
 const UserChart = () => {
