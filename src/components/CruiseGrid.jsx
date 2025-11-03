@@ -1,7 +1,10 @@
 import React from "react";
 import CruiseCard from "./CruiseCard";
 
-const CruiseGrid = ({ tours, title, description,onShowAll }) => {
+const CruiseGrid = ({ tours, title, description, onShowAll }) => {
+  const sortedTours = [...tours].sort(
+    (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+  );
   return (
     <section className="py-5 bg-light">
       <div className="container">
@@ -13,7 +16,7 @@ const CruiseGrid = ({ tours, title, description,onShowAll }) => {
 
         {/* Grid hiển thị card */}
         <div className="row g-4">
-          {tours.map((tour) => (
+          {sortedTours.map((tour) => (
             <div className="col-12 col-md-6 col-lg-4" key={tour.tourId}>
               <CruiseCard tour={tour} />
             </div>
@@ -23,10 +26,10 @@ const CruiseGrid = ({ tours, title, description,onShowAll }) => {
         {/* Nút xem tất cả */}
         <div className="text-center mt-5">
           <button
-        onClick={onShowAll}
-        className="btn btn-link text-decoration-none fw-medium d-inline-flex align-items-center"
-        style={{ color: "#14b8a6" }}
-      >
+            onClick={onShowAll}
+            className="btn btn-link text-decoration-none fw-medium d-inline-flex align-items-center"
+            style={{ color: "#14b8a6" }}
+          >
             Xem tất cả Tour
             <svg
               xmlns="http://www.w3.org/2000/svg"

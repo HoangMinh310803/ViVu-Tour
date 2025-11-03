@@ -3,6 +3,11 @@ import { MapPin, Calendar, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const CruiseCard = ({ tour }) => {
+  const isNew =
+    tour.createdDate &&
+    new Date(tour.createdDate) >=
+      new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+  
   return (
     <div className="card border-0 shadow-lg rounded-3 overflow-hidden h-100">
       {/* Ảnh */}
@@ -14,7 +19,19 @@ const CruiseCard = ({ tour }) => {
           style={{ height: "200px", objectFit: "cover" }}
         />
       </div>
-
+      {isNew && (
+        <span
+          className="badge position-absolute top-0 start-0 m-2 px-3 py-1 text-white fw-bold"
+          style={{
+            backgroundColor: "#ef4444",
+            borderRadius: "0.5rem",
+            fontSize: "0.8rem",
+            textTransform: "uppercase",
+          }}
+        >
+          New
+        </span>
+      )}
       {/* Nội dung */}
       <div className="card-body p-4">
         {/* Địa điểm */}
